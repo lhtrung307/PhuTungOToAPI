@@ -1,5 +1,5 @@
-const Products = require("../models/product");
-const Joi = require("@hapi/joi");
+const Products = require('../models/product');
+const Joi = require('@hapi/joi');
 
 class ProductServices {
   async getAllProducts(sortType) {
@@ -14,7 +14,7 @@ class ProductServices {
     if (products.error) {
       throw products.error;
     }
-    let result = products.map((product) => {
+    let result = products.map(product => {
       product = product.toObject();
       // product.discountAmount = this.calculateDiscountAmount(
       //   product,
@@ -29,7 +29,7 @@ class ProductServices {
   async getProductsByCategory(categoryID, sortType) {
     let sort;
     if (!categoryID) {
-      throw new Error("CategoryID cannot be empty");
+      throw new Error('CategoryID cannot be empty');
     }
     if (!sortType && sortType !== 1 && sortType !== -1) {
       sort = {};
@@ -40,7 +40,7 @@ class ProductServices {
     if (products.error) {
       throw products.error;
     }
-    let result = products.map((product) => {
+    let result = products.map(product => {
       product = product.toObject();
       // product.discountAmount = this.calculateDiscountAmount(
       //   product,
@@ -53,8 +53,8 @@ class ProductServices {
   }
 
   async getProductDetail(id) {
-    if (!id && typeof id !== "string") {
-      throw new Error("Product id cannot be empty");
+    if (!id && typeof id !== 'string') {
+      throw new Error('Product id cannot be empty');
     }
     let product = await Products.getProductByID(id);
     if (!product) {
@@ -74,9 +74,9 @@ class ProductServices {
 
   calculateDiscountAmount(product, pricingRule) {
     if (pricingRule) {
-      if (pricingRule.discountType === "amount") {
+      if (pricingRule.discountType === 'amount') {
         return pricingRule.discount;
-      } else if (pricingRule.discountType === "percentage") {
+      } else if (pricingRule.discountType === 'percentage') {
         return (pricingRule.discount * product.price) / 100;
       }
     } else {
@@ -86,11 +86,11 @@ class ProductServices {
 
   async getProductByIDs(productIDs) {
     if (!productIDs) {
-      throw new Error("Product ids cannot be empty");
+      throw new Error('Product ids cannot be empty');
     }
     let products = await Promise.all(
       productIDs.map(
-        async (productID) => await Products.getProductByID(productID)
+        async productID => await Products.getProductByID(productID)
       )
     );
     console.log(products);
@@ -99,10 +99,10 @@ class ProductServices {
 
   async getProductsForCreateOrder(products) {
     if (!products) {
-      throw new Error("Products cannot be empty");
+      throw new Error('Products cannot be empty');
     }
     let productInfos = await Promise.all(
-      products.map(async (product) => {
+      products.map(async product => {
         let productRecord = await Products.getProductByID(product.productID);
         product.type = productRecord.type;
         if (this.isDiscountProduct(productRecord)) {
@@ -113,7 +113,7 @@ class ProductServices {
         }
         if (product.variants) {
           product.variants = productRecord.variantProducts.filter(
-            (variantProduct) => {
+            variantProduct => {
               for (let variant of product.variants) {
                 if (
                   variantProduct.key === variant.key &&
@@ -142,9 +142,9 @@ class ProductServices {
     );
   }
 
-  async createProduct (product){
-    let product = await Products.createProduct(product);
-    return product;
+  async createProduct(product) {
+    let createdProduct = await Products.createProduct(product);
+    return createdProduct;
   }
 
   productValidate() {
@@ -153,7 +153,7 @@ class ProductServices {
       variantIDs: Joi.string().required(),
       name: Joi.string().required(),
       description: Joi.string().optional(),
-      price: Joi.number().optional(),
+      price: Joi.number().optional()
     });
   }
 

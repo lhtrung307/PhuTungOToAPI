@@ -29,17 +29,8 @@ const ProductSchema = new Schema(
 
 const ProductModel = Mongoose.model("product", ProductSchema);
 
-const getAllPizzas = (sortType) =>
-  ProductModel.find({ type: "pizza" })
-    .select("-variantIDs ")
-    .sort(sortType)
-    .then((products) => products)
-    .catch((error) => {
-      return { error };
-    });
-
-const getToppings = (sortType) =>
-  ProductModel.find({ type: "topping" }, "_id name type description price")
+const getAllProducts = (sortType) =>
+  ProductModel.find()
     .sort(sortType)
     .then((products) => products)
     .catch((error) => {
@@ -47,7 +38,7 @@ const getToppings = (sortType) =>
     });
 
 const getProductByID = (productID) =>
-  ProductModel.findById(productID, "-variantIDs")
+  ProductModel.findById(productID)
     .then((product) => product)
     .catch((error) => {
       return { error };
@@ -95,8 +86,7 @@ const updateProducts = (listID, updateInfo) =>
 module.exports = {
   ProductSchema,
   ProductModel,
-  getAllPizzas,
-  getToppings,
+  getAllProducts,
   getProductByID,
   getProductsByCategoryID,
   updateByID,

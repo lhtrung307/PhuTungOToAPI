@@ -8,22 +8,9 @@ module.exports.list = async (request, h) => {
     sortType = parseInt(query.sort);
   }
   try {
-    const pizzas = await ProductServices.getAllPizzas(sortType);
-    if (pizzas) {
-      return h.response(pizzas).code(200);
-      // } else {
-      //   return h.response({ message: "You don't have any product." });
-    }
-  } catch (error) {
-    return h.response(error.message).code(500);
-  }
-};
-
-module.exports.listToppings = async (request, h) => {
-  try {
-    const toppings = await ProductServices.getAllToppings();
-    if (toppings) {
-      return h.response(toppings).code(200);
+    const products = await ProductServices.getAllProducts(sortType);
+    if (products) {
+      return h.response(products).code(200);
     }
   } catch (error) {
     return h.response(error.message).code(500);
@@ -38,12 +25,12 @@ module.exports.listByCategoryID = async (request, h) => {
     sortType = parseInt(query.sort);
   }
   try {
-    const pizzas = await ProductServices.getPizzasByCategory(
+    const products = await ProductServices.getProductsByCategory(
       categoryID,
       sortType
     );
-    if (pizzas) {
-      return h.response(pizzas).code(200);
+    if (products) {
+      return h.response(products).code(200);
     }
   } catch (error) {
     return h.response(error.message).code(500);
@@ -54,11 +41,11 @@ module.exports.detail = async (request, h) => {
   try {
     let productID = request.params.id;
     if (productID.length !== 24) {
-      return Boom.badRequest("Invalid pizza id");
+      return Boom.badRequest("Invalid product id");
     }
     let product = await ProductServices.getProductDetail(productID);
     if (product == null) {
-      return Boom.notFound("Pizza not found");
+      return Boom.notFound("Product not found");
     } else {
       console.log(product);
       return h.response(product);

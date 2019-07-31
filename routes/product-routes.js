@@ -9,10 +9,10 @@ const Router = {
   register: async (server, options) => {
     server.route({
       method: "GET",
-      path: "/pizzas",
+      path: "/products",
       options: {
         description: "Get list of products",
-        tags: ["api", "pizza"]
+        tags: ["api", "products"]
         // response: ValidateHandle.responseOptions(
         //   ValidateHandle.pizzaResponseSchema
         // )
@@ -22,14 +22,14 @@ const Router = {
 
     server.route({
       method: "GET",
-      path: "/pizzas/{id}",
+      path: "/products/{id}",
       options: {
         validate: {
           params: { id: Joi.string().length(24) },
           failAction: ValidateHandle.handleValidateError
         },
         description: "Get product detail by id",
-        tags: ["api", "pizza"],
+        tags: ["api", "products"],
         response: ValidateHandle.responseOptions(
           ValidateHandle.pizzaDetailResponseSchema
         )
@@ -39,7 +39,7 @@ const Router = {
 
     server.route({
       method: "POST",
-      path: "/pizzas",
+      path: "/products",
       options: {
         validate: {
           payload: Joi.array()
@@ -59,8 +59,8 @@ const Router = {
             .label("Body"),
           failAction: ValidateHandle.handleValidateError
         },
-        description: "Get pizzas by pizza ids",
-        tags: ["api", "pizza"],
+        description: "Get products by product ids",
+        tags: ["api", "products"],
         response: ValidateHandle.responseOptions(
           ValidateHandle.listPizzaResponseSchema
         )
@@ -70,7 +70,7 @@ const Router = {
 
     server.route({
       method: "GET",
-      path: "/pizzas/category/{id}",
+      path: "/products/category/{id}",
       options: {
         validate: {
           params: {
@@ -78,24 +78,13 @@ const Router = {
           },
           failAction: ValidateHandle.handleValidateError
         },
-        description: "Get pizzas by category ids",
-        tags: ["api", "pizza"]
+        description: "Get products by category ids",
+        tags: ["api", "products"]
         // response: ValidateHandle.responseOptions(
         //   ValidateHandle.pizzaResponseSchema
         // )
       },
       handler: ProductControllers.listByCategoryID
-    });
-
-    server.route({
-      method: "GET",
-      path: "/toppings",
-      options: {
-        description: "Get list of toppings",
-        tags: ["api", "topping"],
-        response: ValidateHandle.responseOptions(ValidateHandle.toppingResponse)
-      },
-      handler: ProductControllers.listToppings
     });
 
     // server.route({

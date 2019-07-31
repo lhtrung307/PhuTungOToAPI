@@ -2,7 +2,7 @@ const Products = require("../models/product");
 const Joi = require("@hapi/joi");
 
 class ProductServices {
-  async getAllPizzas(sortType) {
+  async getAllProducts(sortType) {
     let sort;
     if (!sortType && sortType !== 1 && sortType !== -1) {
       sort = {};
@@ -10,22 +10,23 @@ class ProductServices {
       sort = { name: sortType };
       console.log(sort);
     }
-    let products = await Products.getAllPizzas(sort);
+    let products = await Products.getAllProducts(sort);
     if (products.error) {
       throw products.error;
     }
     let result = products.map((product) => {
       product = product.toObject();
-      product.discountAmount = this.calculateDiscountAmount(
-        product,
-        product.pricingRule
-      );
+      // product.discountAmount = this.calculateDiscountAmount(
+      //   product,
+      //   product.pricingRule
+      // );
+      product.discountAmount = 0;
       return product;
     });
     return result;
   }
 
-  async getPizzasByCategory(categoryID, sortType) {
+  async getProductsByCategory(categoryID, sortType) {
     let sort;
     if (!categoryID) {
       throw new Error("CategoryID cannot be empty");
@@ -41,22 +42,14 @@ class ProductServices {
     }
     let result = products.map((product) => {
       product = product.toObject();
-      product.discountAmount = this.calculateDiscountAmount(
-        product,
-        product.pricingRule
-      );
-
+      // product.discountAmount = this.calculateDiscountAmount(
+      //   product,
+      //   product.pricingRule
+      // );
+      product.discountAmount = 0;
       return product;
     });
     return result;
-  }
-
-  async getAllToppings() {
-    let toppings = await Products.getToppings();
-    if (toppings.error) {
-      throw toppings.error;
-    }
-    return toppings;
   }
 
   async getProductDetail(id) {

@@ -142,21 +142,18 @@ class ProductServices {
     );
   }
 
+  async createProduct (product){
+    let product = await Products.createProduct(product);
+    return product;
+  }
+
   productValidate() {
     return Joi.object().keys({
-      type: Joi.string().required(),
       categoryID: Joi.string().required(),
       variantIDs: Joi.string().required(),
       name: Joi.string().required(),
       description: Joi.string().optional(),
       price: Joi.number().optional(),
-      variantProducts: Joi.array().items(
-        Joi.object().keys({
-          key: Joi.string.required(),
-          value: Joi.string().required(),
-          price: Joi.number().required()
-        })
-      )
     });
   }
 

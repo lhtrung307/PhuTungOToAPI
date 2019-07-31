@@ -53,6 +53,21 @@ class ValidateHandle {
       })
       .options({ allowUnknown: true });
 
+      this.createProductResponse = Joi.array()
+      .items({
+        categoryID: Joi.object()
+          .optional(),
+        brandID: Joi.object()
+          .optional(),
+        _id: Joi.object().optional(),
+        name: Joi.string().optional(),
+        description: Joi.string().optional(),
+        price: Joi.number().optional(),
+        image: Joi.string().optional(),
+        discountAmount: Joi.number().optional(),
+      })
+      .options({ allowUnknown: true });
+
     this.pizzaDetailResponseSchema = Joi.object()
       .keys({
         pricingRule: Joi.object()

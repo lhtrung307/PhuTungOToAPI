@@ -53,6 +53,11 @@ const getProductsByCategoryID = (categoryID, sortType) => {
     });
 };
 
+const createProduct = (product) => 
+  ProductModel.create(product)
+    .then(createProduct => createProduct)
+    .catch(error => { return {error}})
+
 const getProductForOrder = (productID) =>
   ProductModel.findById(productID)
     .select("")
@@ -90,5 +95,6 @@ module.exports = {
   getProductByID,
   getProductsByCategoryID,
   updateByID,
-  updateProducts
+  updateProducts,
+  createProduct
 };

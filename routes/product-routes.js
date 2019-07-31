@@ -42,6 +42,23 @@ const Router = {
       path: "/products",
       options: {
         validate: {
+          payload: ValidateHandle.createProductResponse,
+          failAction: ValidateHandle.handleValidateError
+        },
+        description: "Create products new product",
+        tags: ["api", "products"]
+        // response: ValidateHandle.responseOptions(
+        //   ValidateHandle.pizzaResponseSchema
+        // )
+      },
+      handler: ProductControllers.create
+    });
+
+    server.route({
+      method: "POST",
+      path: "/products",
+      options: {
+        validate: {
           payload: Joi.array()
             .items(
               Joi.object().keys({

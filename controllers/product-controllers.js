@@ -17,6 +17,17 @@ module.exports.list = async (request, h) => {
   }
 };
 
+module.exports.create = async (request, h) => {
+  let product = request.payload;
+  try {
+    const createdProduct = await ProductServices.createProduct(product);
+    return h.response(createdProduct);
+  } catch (error) {
+    return Boom.badImplementation(error);
+  }
+  
+}
+
 module.exports.listByCategoryID = async (request, h) => {
   let categoryID = request.params.id;
   let query = request.query;

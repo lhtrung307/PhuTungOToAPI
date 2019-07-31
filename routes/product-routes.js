@@ -54,36 +54,36 @@ const Router = {
       handler: ProductControllers.create
     });
 
-    server.route({
-      method: "POST",
-      path: "/products",
-      options: {
-        validate: {
-          payload: Joi.array()
-            .items(
-              Joi.object().keys({
-                productID: Joi.string().required(),
-                variants: Joi.array()
-                  .items(
-                    Joi.object().keys({
-                      key: Joi.string().example("size"),
-                      value: Joi.string().example("S")
-                    })
-                  )
-                  .optional()
-              })
-            )
-            .label("Body"),
-          failAction: ValidateHandle.handleValidateError
-        },
-        description: "Get products by product ids",
-        tags: ["api", "products"],
-        response: ValidateHandle.responseOptions(
-          ValidateHandle.listPizzaResponseSchema
-        )
-      },
-      handler: ProductControllers.listByIDs
-    });
+    // server.route({
+    //   method: "POST",
+    //   path: "/products",
+    //   options: {
+    //     validate: {
+    //       payload: Joi.array()
+    //         .items(
+    //           Joi.object().keys({
+    //             productID: Joi.string().required(),
+    //             variants: Joi.array()
+    //               .items(
+    //                 Joi.object().keys({
+    //                   key: Joi.string().example("size"),
+    //                   value: Joi.string().example("S")
+    //                 })
+    //               )
+    //               .optional()
+    //           })
+    //         )
+    //         .label("Body"),
+    //       failAction: ValidateHandle.handleValidateError
+    //     },
+    //     description: "Get products by product ids",
+    //     tags: ["api", "products"],
+    //     response: ValidateHandle.responseOptions(
+    //       ValidateHandle.listPizzaResponseSchema
+    //     )
+    //   },
+    //   handler: ProductControllers.listByIDs
+    // });
 
     server.route({
       method: "GET",
